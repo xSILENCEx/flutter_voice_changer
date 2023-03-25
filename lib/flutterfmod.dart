@@ -1,6 +1,33 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+// const val MODE_FUNNY = 1 //搞笑
+
+//     const val MODE_UNCLE = 2 //大叔
+
+//     const val MODE_LOLITA = 3 //萝莉
+
+//     const val MODE_ROBOT = 4 //机器人
+
+//     const val MODE_ETHEREAL = 5 //空灵
+
+//     const val MODE_CHORUS = 6 //混合
+
+//     const val MODE_HORROR = 7 //恐怖
+
+enum ConversionType {
+  funny._(1),
+  uncle._(2),
+  lolita._(3),
+  robot._(4),
+  ethereal._(5),
+  chorus._(6),
+  horror._(7);
+
+  const ConversionType._(this.value);
+
+  final int value;
+}
 
 /// `volume` 0 ~ 1;
 typedef VolumeCallBack = Function(double volume);
@@ -42,9 +69,7 @@ class Flutterfmod {
   /// start record
   /// [path] record file path.
   /// [callBack] volume callback: 0 ~ 1.
-  static Future<bool> startVoiceRecord([
-    VolumeCallBack? volumeCallBack,
-  ]) async {
+  static Future<bool> startVoiceRecord([VolumeCallBack? volumeCallBack]) async {
     if (_private.recoreding) {
       return false;
     }
@@ -58,9 +83,7 @@ class Flutterfmod {
   }
 
   /// stop record
-  static Future<bool> stopVoiceRecord(
-    StopRecordCallBack callBack,
-  ) async {
+  static Future<bool> stopVoiceRecord(StopRecordCallBack callBack) async {
     Map result = await _channel.invokeMethod('stopVoiceRecord');
     _private._callBack = null;
     _private.recoreding = false;
@@ -79,10 +102,7 @@ class Flutterfmod {
   }
 
   /// play amr file
-  static Future<bool> play(
-    String path, [
-    StopPlayCallBack? endCallback,
-  ]) async {
+  static Future<bool> play(String path, [StopPlayCallBack? endCallback]) async {
     _private._stopCallBack = endCallback;
     bool isPlay = await _channel.invokeMethod('play', {"path": path}) as bool;
     return isPlay;
@@ -95,9 +115,9 @@ class Flutterfmod {
     return null;
   }
 
-  static Future<String> conversion(int conversionType, String path, String? savePath) async {
+  static Future<String> conversion(ConversionType conversionType, String path, String? savePath) async {
     final String okpath = await _channel
-        .invokeMethod('conversion', {"conversionType": conversionType, "path": path, "savePath": savePath});
+        .invokeMethod('conversion', {"conversionType": conversionType.value, "path": path, "savePath": savePath});
     return okpath;
   }
 }

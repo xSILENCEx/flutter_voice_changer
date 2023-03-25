@@ -2,6 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutterfmod/flutterfmod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+extension _ExType on ConversionType {
+  String get name {
+    switch (this) {
+      case ConversionType.funny:
+        return '搞笑';
+      case ConversionType.uncle:
+        return '大叔';
+      case ConversionType.lolita:
+        return '萝莉';
+      case ConversionType.robot:
+        return '机器人';
+      case ConversionType.ethereal:
+        return '空灵';
+      case ConversionType.chorus:
+        return '混合';
+      case ConversionType.horror:
+        return '恐怖';
+    }
+  }
+}
+
 void main() {
   runApp(MyApp());
 }
@@ -15,25 +36,13 @@ class _MyAppState extends State<MyApp> {
   double _volume = 0;
   String? _path;
   String? _playPath;
+
   @override
   void initState() {
     _requestPermiss();
     super.initState();
   }
 
-// const val MODE_FUNNY = 1 //搞笑
-
-//     const val MODE_UNCLE = 2 //大叔
-
-//     const val MODE_LOLITA = 3 //萝莉
-
-//     const val MODE_ROBOT = 4 //机器人
-
-//     const val MODE_ETHEREAL = 5 //空灵
-
-//     const val MODE_CHORUS = 6 //混合
-
-//     const val MODE_HORROR = 7 //恐怖
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -75,104 +84,14 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ],
               ),
-              // GestureDetector(
-              //   onTap: () async {
-              //     _playPath = await Flutterfmod.conversion(1, _path, null);
-              //   },
-              //   child: Text(
-              //     '搞笑',
-              //   ),
-              // ),
-              // GestureDetector(
-              //   onTap: () async {
-              //     _playPath = await Flutterfmod.conversion(2, _path, null);
-              //   },
-              //   child: Text(
-              //     '大叔',
-              //   ),
-              // ),
-              // GestureDetector(
-              //   onTap: () async {
-              //     _playPath = await Flutterfmod.conversion(3, _path, null);
-              //   },
-              //   child: Text(
-              //     '萝莉',
-              //   ),
-              // ),
-              // GestureDetector(
-              //   onTap: () async {
-              //     _playPath = await Flutterfmod.conversion(4, _path, null);
-              //   },
-              //   child: Text(
-              //     '机器人',
-              //   ),
-              // ),
-              // GestureDetector(
-              //   onTap: () async {
-              //     _playPath = await Flutterfmod.conversion(5, _path, null);
-              //   },
-              //   child: Text(
-              //     '空灵',
-              //   ),
-              // ),
-              // GestureDetector(
-              //   onTap: () async {
-              //     _playPath = await Flutterfmod.conversion(6, _path, null);
-              //   },
-              //   child: Text(
-              //     '混合',
-              //   ),
-              // ),
-              // GestureDetector(
-              //   onTap: () async {
-              //     _playPath = await Flutterfmod.conversion(7, _path, null);
-              //   },
-              //   child: Text(
-              //     '恐怖',
-              //   ),
-              // ),
-              _item(
-                text: '搞笑',
-                onTap: () async {
-                  _playPath = await Flutterfmod.conversion(1, _path!, null);
-                },
-              ),
-              _item(
-                text: '大叔',
-                onTap: () async {
-                  _playPath = await Flutterfmod.conversion(2, _path!, null);
-                },
-              ),
-              _item(
-                text: '萝莉',
-                onTap: () async {
-                  _playPath = await Flutterfmod.conversion(3, _path!, null);
-                },
-              ),
-              _item(
-                text: '机器人',
-                onTap: () async {
-                  _playPath = await Flutterfmod.conversion(4, _path!, null);
-                },
-              ),
-              _item(
-                text: '空灵',
-                onTap: () async {
-                  _playPath = await Flutterfmod.conversion(5, _path!, null);
-                },
-              ),
-              _item(
-                text: '混合',
-                onTap: () async {
-                  _playPath = await Flutterfmod.conversion(6, _path!, null);
-                },
-              ),
-              _item(
-                text: '恐怖',
-                onTap: () async {
-                  _playPath = await Flutterfmod.conversion(7, _path!, null);
-                },
-              ),
+              ...ConversionType.values.map((e) {
+                return _item(
+                  text: e.name,
+                  onTap: () async {
+                    _playPath = await Flutterfmod.conversion(e, _path!, null);
+                  },
+                );
+              }).toList(),
             ],
           ),
         ),
