@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
                 return _item(
                   text: e.name,
                   onTap: () async {
-                    _playPath = await Flutterfmod.conversion(e, _path!, null);
+                    _playPath = await FlutterVoiceChanger.conversion(e, _path!, null);
                   },
                 );
               }).toList(),
@@ -107,7 +107,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   _startRecord() async {
-    bool success = await Flutterfmod.startVoiceRecord((volume) {
+    bool success = await FlutterVoiceChanger.startVoiceRecord((volume) {
       print('volume ---- $volume');
       setState(() {
         _volume = volume;
@@ -117,7 +117,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   _stopRecord() async {
-    bool success = await Flutterfmod.stopVoiceRecord((path, duration) {
+    bool success = await FlutterVoiceChanger.stopVoiceRecord((path, duration) {
       _path = path;
       _playPath = path;
       print('path --- $path, duration ---- $duration');
@@ -129,7 +129,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   _cancelRecord() async {
-    await Flutterfmod.cancelVoiceRecord();
+    await FlutterVoiceChanger.cancelVoiceRecord();
     setState(() {
       _volume = 0;
     });
@@ -137,13 +137,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   _play() async {
-    await Flutterfmod.play(_playPath!, (path) {
+    await FlutterVoiceChanger.play(_playPath!, (path) {
       print('play end');
     });
   }
 
   _stop() async {
-    await Flutterfmod.stop();
+    await FlutterVoiceChanger.stop();
   }
 
   _requestPermiss() async {

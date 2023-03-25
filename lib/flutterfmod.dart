@@ -34,8 +34,8 @@ typedef VolumeCallBack = Function(double volume);
 typedef StopRecordCallBack = void Function(String path, int duration);
 typedef StopPlayCallBack = void Function(String path);
 
-class Flutterfmod {
-  Flutterfmod._() {
+class FlutterVoiceChanger {
+  FlutterVoiceChanger._() {
     _channel.setMethodCallHandler((call) async {
       if (call.method == 'volume') {
         double volume = call.arguments.toDouble();
@@ -56,13 +56,13 @@ class Flutterfmod {
 
   static const MethodChannel _channel = const MethodChannel('flutterfmod');
 
-  static Flutterfmod? _flutterFmod;
+  static FlutterVoiceChanger? _flutterFmod;
 
   // ignore: unused_field
   VolumeCallBack? _callBack;
   StopPlayCallBack? _stopCallBack;
 
-  static Flutterfmod get _private => _flutterFmod = _flutterFmod ?? Flutterfmod._();
+  static FlutterVoiceChanger get _private => _flutterFmod = _flutterFmod ?? FlutterVoiceChanger._();
 
   bool recoreding = false;
 
